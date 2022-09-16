@@ -1,7 +1,7 @@
 [package]
-name = "mnist-wasm"
+name = "myers-briggs-wasm"
 version = "0.1.0"
-authors = ["Skeletonxf <skeletonxf@gmail.com>"]
+authors = ["Andrew Rosborough <arosborough@oculat.us>", "Josh Meyer <josh@pekasys.com>"]
 edition = "2021"
 categories = ["wasm"]
 readme = "README.md"

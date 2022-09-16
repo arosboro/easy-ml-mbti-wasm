@@ -1,5 +1,5 @@
 {
-  "author": "Skeletonxf <skeletonxf@gmail.com>",
+  "authors": ["Andrew Rosborough <arosborough@oculat.us>", "Joshua Meyer <josh@pekasys.com>"],
   "name": "rust-webpack-template",
   "version": "0.1.0",
   "scripts": {
