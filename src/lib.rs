@@ -100,73 +100,113 @@ impl From<Image> for Matrix<f64> {
     }
 }
 
-/// A label type for the MNIST data set, consisting of the 10 digits.
+/// A label type for the MBTI personality types consisting of 8 possible letters
 #[wasm_bindgen]
 #[repr(u8)]
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum Digit {
-    Zero = 0,
-    One = 1,
-    Two = 2,
-    Three = 3,
-    Four = 4,
-    Five = 5,
-    Six = 6,
-    Seven = 7,
-    Eight = 8,
-    Nine = 9,
+pub enum MBType {
+    I = 0b10000000,
+    E = 0b01000000,
+    N = 0b00100000,
+    S = 0b00010000,
+    T = 0b00001000,
+    F = 0b00000100,
+    J = 0b00000010,
+    P = 0b00000001,
 }
 
-impl TryFrom<u8> for Digit {
+// A label for the MBTI personality types consisting of 16 possible classifiers
+#[wasm_bindgen]
+#[repr(u8)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum MBTI {
+    ESFJ = 0b01010110,
+    ESFP = 0b01010101,
+    ESTJ = 0b01011010,
+    ESTP = 0b01011001,
+    ENFJ = 0b01100110,
+    ENFP = 0b01100101,
+    ENTJ = 0b01101010,
+    ENTP = 0b01101001,
+    ISFJ = 0b10010110,
+    ISFP = 0b10010101,
+    ISTJ = 0b10011010,
+    ISTP = 0b10011001,
+    INFJ = 0b10100110,
+    INFP = 0b10100101,
+    INTJ = 0b10101010,
+    INTP = 0b10101001,
+}
+
+impl TryFrom<u8> for MBTI {
     type Error = &'static str;
 
     fn try_from(integer: u8) -> Result<Self, Self::Error> {
         match integer {
-            0 => Ok(Digit::Zero),
-            1 => Ok(Digit::One),
-            2 => Ok(Digit::Two),
-            3 => Ok(Digit::Three),
-            4 => Ok(Digit::Four),
-            5 => Ok(Digit::Five),
-            6 => Ok(Digit::Six),
-            7 => Ok(Digit::Seven),
-            8 => Ok(Digit::Eight),
-            9 => Ok(Digit::Nine),
-            _ => Err("Number out of range"),
+            0b01010110 => Ok(MBTI::ESFJ),
+            0b01010101 => Ok(MBTI::ESFP),
+            0b01011010 => Ok(MBTI::ESTJ),
+            0b01011001 => Ok(MBTI::ESTP),
+            0b01100110 => Ok(MBTI::ENFJ),
+            0b01100101 => Ok(MBTI::ENFP),
+            0b01101010 => Ok(MBTI::ENTJ),
+            0b01101001 => Ok(MBTI::ENTP),
+            0b10010110 => Ok(MBTI::ISFJ),
+            0b10010101 => Ok(MBTI::ISFP),
+            0b10011010 => Ok(MBTI::ISTJ),
+            0b10011001 => Ok(MBTI::ISTP),
+            0b10100110 => Ok(MBTI::INFJ),
+            0b10100101 => Ok(MBTI::INFP),
+            0b10101010 => Ok(MBTI::INTJ),
+            0b10101001 => Ok(MBTI::INTP),
+            _ => Err("Invalid MBTI type"),
         }
     }
 }
 
-impl From<Digit> for u8 {
-    fn from(label: Digit) -> Self {
+impl From<&str> for MBTI {
+    fn from(label: &str) -> Self {
         match label {
-            Digit::Zero => 0,
-            Digit::One => 1,
-            Digit::Two => 2,
-            Digit::Three => 3,
-            Digit::Four => 4,
-            Digit::Five => 5,
-            Digit::Six => 6,
-            Digit::Seven => 7,
-            Digit::Eight => 8,
-            Digit::Nine => 9,
+            "ESFJ" => MBTI::ESFJ,
+            "ESFP" => MBTI::ESFP,
+            "ESTJ" => MBTI::ESTJ,
+            "ESTP" => MBTI::ESTP,
+            "ENFJ" => MBTI::ENFJ,
+            "ENFP" => MBTI::ENFP,
+            "ENTJ" => MBTI::ENTJ,
+            "ENTP" => MBTI::ENTP,
+            "ISFJ" => MBTI::ISFJ,
+            "ISFP" => MBTI::ISFP,
+            "ISTJ" => MBTI::ISTJ,
+            "ISTP" => MBTI::ISTP,
+            "INFJ" => MBTI::INFJ,
+            "INFP" => MBTI::INFP,
+            "INTJ" => MBTI::INTJ,
+            "INTP" => MBTI::INTP,
+            _ => panic!("Invalid MBTI type"),
         }
     }
 }
 
-impl From<Digit> for usize {
-    fn from(label: Digit) -> Self {
+impl From<MBTI> for usize {
+    fn from(label: MBTI) -> Self {
         match label {
-            Digit::Zero => 0,
-            Digit::One => 1,
-            Digit::Two => 2,
-            Digit::Three => 3,
-            Digit::Four => 4,
-            Digit::Five => 5,
-            Digit::Six => 6,
-            Digit::Seven => 7,
-            Digit::Eight => 8,
-            Digit::Nine => 9,
+            MBTI::ESFJ => 0b01010110,
+            MBTI::ESFP => 0b01010101,
+            MBTI::ESTJ => 0b01011010,
+            MBTI::ESTP => 0b01011001,
+            MBTI::ENFJ => 0b01100110,
+            MBTI::ENFP => 0b01100101,
+            MBTI::ENTJ => 0b01101010,
+            MBTI::ENTP => 0b01101001,
+            MBTI::ISFJ => 0b10010110,
+            MBTI::ISFP => 0b10010101,
+            MBTI::ISTJ => 0b10011010,
+            MBTI::ISTP => 0b10011001,
+            MBTI::INFJ => 0b10100110,
+            MBTI::INFP => 0b10100101,
+            MBTI::INTJ => 0b10101010,
+            MBTI::INTP => 0b10101001,
         }
     }
 }
@@ -175,7 +215,7 @@ impl From<Digit> for usize {
 #[derive(Clone, Debug)]
 pub struct Dataset {
     images: Vec<Image>,
-    labels: Vec<Digit>,
+    labels: Vec<MBTI>,
 }
 
 #[wasm_bindgen]
@@ -252,7 +292,7 @@ impl NeuralNetwork {
         self.weights.len()
     }
 
-    pub fn classify(&self, image: &Image) -> Digit {
+    pub fn classify(&self, image: &Image) -> MBTI {
         let input: Matrix<f64> = image.clone().into();
         // this neural network is a simple feed forward architecture, so dot product
         // the input through the network weights and apply the sigmoid activation
@@ -264,8 +304,8 @@ impl NeuralNetwork {
             // find argmax of the output
             .enumerate()
             .max_by(|(_, a), (_, b)| a.partial_cmp(b).expect("NaN should not be in list"))
-            // convert from usize into a Digit, by construction classiciation only has
-            // 10 elements, so the index will fit into a Digit
+            // convert from usize into a MBTI, by construction classiciation only has
+            // 10 elements, so the index will fit into a MBTI
             .map(|(i, _)| i as u8)
             .unwrap()
             .try_into()
@@ -363,11 +403,11 @@ impl <'a> NeuralNetworkTraining<'a> {
 
     /// Classification is very similar for training, except we stay in floating point
     /// land so we can backprop the error.
-    /// This function takes an iterator of Images and Digits, and updates the weights
+    /// This function takes an iterator of Images and MBTIs, and updates the weights
     /// after getting the errors on the entire batch, returning the average loss for
     /// the batch.
     pub fn train<I>(&mut self, batch: I, learning_rate: f64, history: &'a WengertList<f64>) -> f64
-    where I: Iterator<Item = (&'a Image, Digit)> {
+    where I: Iterator<Item = (&'a Image, MBTI)> {
         let mut errors = Vec::with_capacity(BATCH_SIZE);
         for (image, label) in batch {
             let input: Matrix<f64> = image.clone().into();
